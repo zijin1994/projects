@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+        <link rel="icon" href="data:;base64,=">
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelector('#b').disabled = true;
+                if (!localStorage.getItem('user')){
+                    document.querySelector('#user_name').value = '';
+                  }
+                else {
+                    document.querySelector('#user_name').value = localStorage.getItem('user');
+                  }
+
+
+                document.querySelector('#user').onsubmit = () => {
+
+                    // Initialize new request
+                    const request = new XMLHttpRequest();
+                    const name = document.querySelector('#user_name').value;
+                    if (name != localStorage.getItem('user')){
+                        localStorage.clear('last_channel');
+                    }
+                    localStorage.setItem('user', name);
+                    request.open('POST', '/login');
+
+                    // Callback function for when request completes
+                    request.onload = () => {
+                        const u = JSON.parse(request.responseText);
+                        document.querySelector('h2').innerHTML = `welcome, ${name}`;
+                        document.querySelector('#b').disabled = false;
+                        document.querySelector('#a').disabled = true;
+                        u.forEach(add_channel);
+                        if (localStorage.getItem('last_channel')){
+                            var last = localStorage.getItem('last_channel');
+                            document.querySelector('h3').innerHTML = `You last visited ${last}`;
+                        }
+
+
+                    }
+
+                    // Add data to send with request
+                    const data = new FormData();
+                    data.append('user_name', name);
+                    // Send request
+                    request.send(data);
+                    return false;
+                };
+
+                document.querySelector('#form').onsubmit = () => {
+
+                    // Initialize new request
+                    const request = new XMLHttpRequest();
+                    const channel = document.querySelector('#channel_name').value;
+                    const creater = localStorage.getItem('user');
+
+
+                    request.open('POST', '/create');
+
+                    // Callback function for when request completes
+                    request.onload = () => {
+                        const c = JSON.parse(request.responseText);
+                        if(c.success){
+                            document.querySelector('h1').innerText = "success."
+                            add_channel(c.name);
+                          }
+                        else {
+                            document.querySelector('h1').innerText = "That channel name already exist! Try different one."
+                        }
+
+                    }
+
+                    // Add data to send with request
+                    const data = new FormData();
+                    data.append('channel_name', channel);
+                    data.append('channel_creater', creater);
+
+                    // Send request
+                    request.send(data);
+                    return false;
+                };
+
+
+            });
+
+            document.addEventListener('click', event => {
+
+                const element = event.target;
+                if (element.className === 'channel') {
+                    const name = element.innerText;
+                    load_channel(name);
+                    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+                    document.querySelector('h3').innerText = '';
+                    localStorage.setItem('last_channel', name);
+                    socket.on('connect', () => {
+                        document.querySelector('#message').onsubmit = () => {
+
+                          const message = document.querySelector('#text_message').value;
+                          const channel = document.querySelector('h1').innerText
+                          var d = new Date();
+                          var t = d.toUTCString();
+                          var writer = document.querySelector('h2').innerHTML.slice(9);
+                          localStorage.setItem('user', writer);
+                          socket.emit('submit message', {'message': message, 'channel': channel, 'creater': writer, 'time': t});
+                          return false;
+                        }
+
+                        document.addEventListener('click', event => {
+
+                            const element = event.target;
+                            if (element.className === 'hide') {
+                              const len = element.parentElement.innerText.length -6;
+                              const message = element.parentElement.innerText.substring(0, len);
+                              const channel = document.querySelector('h1').innerText
+                              document.querySelector('h3').innerHTML = 'deleted';
+                              socket.emit('delete message', {'message': message, 'channel': channel});
+                              element.parentElement.remove();
+                            }
+                          });
+                        });
+
+
+
+                    socket.on('show message', data => {
+                        add_message(data.message);
+                    });
+
+                    socket.on('complete', data => {
+                    });
+
+
+
+
+
+
+            }});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              function add_channel(contents){
+                    const channel = document.createElement('li');
+                    channel.type="1";
+                    const channel_link = document.createElement('button');
+                    channel_link.className = 'channel';
+                    channel.appendChild(channel_link);
+                    channel_link.innerText = contents;
+                    document.querySelector('#channel_lists').append(channel);
+              }
+
+              function load_channel(name) {
+                    document.getElementById('user').style.display = "none";
+                    document.getElementById('form').style.display = "none";
+                    document.getElementById('channel_lists').style.display = "none";
+                    document.querySelector('h1').innerText = `${name}`
+                    document.title = name;
+                    const chat_box = document.createElement('ul');
+                    chat_box.id = 'chatbox';
+                    chat_box.style.backgroudColor = "lightgrey";
+                    document.body.append(chat_box);
+
+                    const message_form = document.createElement('form');
+                    message_form.id = 'message';
+                    const text_message = document.createElement('input');
+                    text_message.id = 'text_message';
+                    text_message.type = 'text';
+                    text_message.placeholder = 'type in message:';
+                    const send = document.createElement('input');
+                    send.id = 'send';
+                    send.type = 'submit';
+                    message_form.appendChild(text_message);
+                    message_form.appendChild(send);
+                    document.body.append(message_form);
+
+                    const request = new XMLHttpRequest();
+                    request.open('POST', `/create/${name}`);
+                    request.onload = () => {
+                        const response = JSON.parse(request.responseText);
+                        response.forEach(add_message);
+                    };
+                    const data = new FormData();
+                    data.append('name', name);
+                    request.send(data);
+              }
+
+              function add_message(message) {
+                    const m = document.createElement('li');
+                    m.className = 'message';
+                    m.innerText = message;
+                    if (document.querySelector('h2').innerHTML.slice(9) === message.substr(0, message.indexOf(":"))){
+                        const hide = document.createElement('button');
+                        hide.className = 'hide';
+                        hide.innerHTML = 'delete';
+                        m.append(hide);
+                    }
+
+                    document.querySelector('#chatbox').append(m);
+              }
+
+        </script>
+        <title>chat room</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    </head>
+    <body>
+        <h1>The best chat room website</h1>
+        <h2></h2>
+        <h3></h3>
+        <form id="user">
+            <input id="user_name" autocomplete="off" placeholder="type in username" type="text">
+            <input type="submit" id="a" value="create">
+        </form>
+
+        <form id="form">
+            <input id="channel_name" autocomplete="off" placeholder="type in channel name to create channel" type="text">
+            <input type="submit" id="b" value="create">
+        </form>
+        <br>
+        <ol id="channel_lists">
+        </ol>
+    </body>
+</html>

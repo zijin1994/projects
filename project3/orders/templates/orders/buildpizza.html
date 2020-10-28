@@ -1,0 +1,19 @@
+{% extends "orders/base.html" %}
+
+{% block body %}
+<h1>{{ title }}</h1>
+<h2>Please select {{ topping_number }} topping(s) to add to your pizza</h2>
+<form id="toppings" name="toppings" action="{% url 'toppings' title=title name=name size=size %}" method="post">
+    {% csrf_token %}
+        {% for topping in toppings %}
+            <label><input type="checkbox" name="topping" value="{{ topping.name }}" class="check" />{{ topping }}</label>
+        {% endfor %}
+    <input type="submit" value="Add Toppings"/>
+</form>
+
+<script type="text/javascript">
+var topping_number = "{{topping_number}}";
+var topping_number_int = parseInt(topping_number);
+checkboxlimit(document.forms.toppings.topping, topping_number_int);
+</script>
+{% endblock %}

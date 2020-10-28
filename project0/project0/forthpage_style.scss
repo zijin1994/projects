@@ -1,0 +1,23 @@
+$color-dead:lightgrey;
+$color-alive:black;
+$size:20px;
+
+%center{
+  text-align: center;
+  margin-left: 200px;
+  margin-right: 200PX;
+}
+.family{
+  font-size:$size;
+  margin-top: 10px;
+  .dead{
+    @extend %center;
+    color: $color-dead;
+    font-weight: bold;
+
+  }
+  .alive{
+    @extend %center;
+    color: $color-alive;
+  }
+}

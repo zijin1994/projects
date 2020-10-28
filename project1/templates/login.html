@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  BookMaster
+{% endblock %}
+
+{% block body %}
+    <h1>The ultimate book review website</h1>
+
+    <h2>Welcome, {{user.username}}</h2>
+
+    <form action="{{ url_for('searching') }}" method="post">
+        <div class="form-group">
+            <input class="form-control" name="search_input" placeholder="please type in isbn, book tittle or author">
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary">search</button>
+        </div>
+    </form>
+
+    <form action="{{ url_for('logout') }}">
+      <div class="form-group">
+          <button class="btn btn-primary">logout</button>
+      </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,19 @@
+.family .alive, .family .dead {
+  text-align: center;
+  margin-left: 200px;
+  margin-right: 200PX;
+}
+
+.family {
+  font-size: 20px;
+  margin-top: 10px;
+}
+.family .dead {
+  color: lightgrey;
+  font-weight: bold;
+}
+.family .alive {
+  color: black;
+}
+
+/*# sourceMappingURL=forthpage_style.css.map */

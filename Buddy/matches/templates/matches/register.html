@@ -1,0 +1,76 @@
+{% extends "matches/base.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+{% block body %}
+<div class="container" name="register" id="id03">
+  <h1 style="text-align:center; font-family:verdana;">Buddy</h1>
+  <br>
+  <h2 style="text-align:center; font-family:verdana;">The Best Place To Find Your Buddy</h2>
+  <br>
+  <br>
+  <form name="register_form" id="id04" action="{% url 'register' %}" method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-lg-3 col-sm-12">
+      </div>
+      <div class="col-lg-6 col-sm-12" style="text-align:center;">
+        {% if username or password %}
+        <label for="username">username:</label>
+        <input name="username" placeholder="type in username" type="text" value="{{ username }}"/>
+        <br>
+        <br>
+        <label for="password">password:</label>
+        <input name="password" placeholder="type in password" type="text" value="{{ password }}"/>
+        <br>
+        <br>
+        <label for="first name">first name:</label>
+        <input name="first name" placeholder="type in first name" type="text"/>
+        <br>
+        <br>
+        <label for="last name">last name:</label>
+        <input name="last name" placeholder="type in last name" type="text"/>
+        <br>
+        <br>
+        <label for="email">email:</label>
+        <input name="email" placeholder="type in email" type="email"/>
+        {% else %}
+        <label for="username">username:</label>
+        <input name="username" placeholder="type in username" type="text"/>
+        <br>
+        <br>
+        <label for="password">password:</label>
+        <input name="password" placeholder="type in password" type="text"/>
+        <br>
+        <br>
+        <label for="first name">first name:</label>
+        <input name="first name" placeholder="type in first name" type="text"/>
+        <br>
+        <br>
+        <label for="last name">last name:</label>
+        <input name="last name" placeholder="type in last name" type="text"/>
+        <br>
+        <br>
+        <label for="email">email:</label>
+        <input name="email" placeholder="type in email" type="email"/>
+        {% endif %}
+        <br>
+        <br>
+        <input type="submit" name="action_register" value="Register"/>
+      </div>
+      <div class="col-lg-3 col-sm-12">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+      </div>
+    </div>
+    {% if message %}
+    <div class="row">
+      <p class="message" style="text-align:center; font-family:courier;">{{ message }}</p>
+    </div>
+    {% endif %}
+  </form>
+</div>
+{% endblock %}

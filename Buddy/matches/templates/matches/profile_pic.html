@@ -1,0 +1,31 @@
+{% extends "matches/base.html" %}
+
+{% block title %}
+    {{ user.first_name }}
+{% endblock %}
+{% block body %}
+<div class="container" name="pic" id="id15">
+  <h1 style="font-family: Sans-serif;">Please select a picture to upload</h1>
+  <form name="upload_pic" id="id16" action="{% url 'upload_pic' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-lg-3 col-sm-12">
+      {% if user.photo %}
+      <label for="head">Current Profile Picture:</label>
+      <img id="head" name="head" src="{{ user.photo.url }}" alt="Profile Picture" style="width:200px;height:200px;">
+      {% else %}
+      <p class="message" style="text-align:center; font-family:courier;">You have not uploaded your profile picture, try select one!</p>
+      {% endif %}
+      </div>
+      <div class="col-lg-6 col-sm-12">
+      <label for="img">Select image:</label>
+      <input type="file" id="img" name="img" accept="image/*">
+      <input type="submit" name="action_upload" value="Upload">
+      </div>
+      <div class="col-lg-3 col-sm-12">
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

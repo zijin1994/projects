@@ -1,0 +1,105 @@
+
+/* Links to different html pages dont get printed (the task bar)*/
+@media print {
+    .d-print-none{
+        display: none;
+    }
+}
+/* below are the task bar desgin of the website*/
+.d-print-none > div {
+    background-color: black;
+}
+a, a:hover {
+    color: white;
+    text-align: center;
+    display: block;
+
+}
+/* above are the task bar desgin of the website*/
+h1, h6{
+    text-align:center;
+}
+/* homepage background desgin*/
+#homepage{
+    background-image: url(img/background.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#homepage_image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* secondpage paragraph desgin*/
+ul,h2, .Kobe_death_news{
+    text-align: left;
+    margin-left: 200px;
+    margin-right: 200PX;
+
+}
+.Kobe_death_news::selection{
+    background-color: black;
+    color: white;
+}
+h2{
+    color:red;
+    margin-top: 30px;
+}
+ul a::before {
+    content: "\21d2  Click here: ";
+    font-weight: bold;
+    color: red;
+}
+ul a, ul a:hover{
+    color: red;
+    font-weight: bold;
+    text-align: left;
+}
+ul li{
+  margin-bottom: 10px;
+}
+
+/*The picture on the news page would stay right when the screen size is big,
+once the screen size is below 700px in width( the width of the picture is 290px
+and the margin on both side was set to 200px), the pciture would stay in the
+middle and margin on both side would be auto*/
+@media (min-width: 700px){
+    .crash_picture{
+        float:right;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        margin-right: 200px;
+        border:solid black 1px;
+    }
+}
+@media (max-width: 700px){
+    .crash_picture{
+        display: block;
+        margin-left: auto;
+        margin-bottom: 10px;
+        margin-right: auto;
+        border:solid black 1px;
+    }
+}
+/*kobe career page desgin*/
+table {
+    border: 2px solid black;
+    border-collapse: collapse;
+    width:40%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+}
+
+th {
+    background-color: purple;
+}
+tr{
+    background-color: gold;
+}

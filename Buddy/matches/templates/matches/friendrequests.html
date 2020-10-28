@@ -1,0 +1,47 @@
+{% extends "matches/base.html" %}
+
+{% block title %}
+    {{ user.first_name }}
+{% endblock %}
+{% block body %}
+<div class="container" name="friendrequests_page" id="id12">
+  <h1 style="text-align:center; font-family: Sans-serif;">Hello, {{ user.first_name }}</h1>
+  <div class="row">
+    <div class="col-lg-3 col-sm-12">
+
+    </div>
+    <div class="col-lg-6 col-sm-12">
+      {% if requests %}
+        <form name="accept_reject_request_form" id="id13" action="{% url 'process_request' %}" method="post">
+        {% csrf_token %}
+        <p name="friendrequests_title" style="font-family: Sans-serif;">Your friend requests:</p>
+        <ul id="friendrequests" style="list-style-type:none;">
+          {% for request in requests %}
+          <li>
+              <label for="{{ request.from_user.username }}"> Friend request from {{ request.from_user }}</label>
+              <input type="checkbox" name="{{ request.from_user.username }}" value="{{ request.id }}" class="check" />
+              <br>
+              <p style="font-family:courier;">{{ request.text }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+        <br>
+        <input type="submit" name="action_accept" value="Accept"/>
+        <input type="submit" name="action_decline" value="Decline"/>
+        </form>
+      {% else %}
+        <p style="text-align:center; font-family:courier;">Your do not have any friend requests.</p>
+      {% endif %}
+    </div>
+    <div class="col-lg-3 col-sm-12">
+
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+{% endblock %}

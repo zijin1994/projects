@@ -1,0 +1,20 @@
+{% extends "orders/base.html" %}
+
+{% block body %}
+<h1>Regular Pizza</h1>
+    <ul>
+        {% for pizza in regular_pizza %}
+            <li>
+                <a href = "{% url 'add_pizza' title=pizza name=pizza.name size=pizza.size %}">{{ pizza }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+<h1>Sicilian Pizza</h1>
+    <ul>
+        {% for pizza in sicilian_pizza %}
+            <li>
+                <a href = "{% url 'add_pizza' title=pizza name=pizza.name size=pizza.size %}">{{ pizza }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "matches/base.html" %}
+
+{% block title %}
+    {{ user.first_name }}
+{% endblock %}
+{% block body %}
+
+
+<div class="container" name="user_info" id="id11">
+<h1 style="font-family: Sans-serif;text-align:center;">Welcome to {{ user }}'s info page.</h1>
+<div class="row" name="given_info">
+  <div class="col-lg-3 col-sm-12">
+    {% if user.photo %}
+    <img id="head_photo" name="head_photo" src="{{ user.photo.url }}" alt="Profile Picture" style="width:100px;height:100px;margin-left:100px;">
+    {% else %}
+    <p class="message" style="text-align:center; font-family:courier;">The user has not uploaded a profile picture.</p>
+    {% endif %}
+  </div>
+  <div class="col-lg-6 col-sm-12">
+    {% if user.age %}
+        <label for="age">age:</label>
+        <p name="age">{{ user.age }}</p>
+
+    {% endif %}
+    {% if user.gender %}
+        <label for="gender">gender:</label>
+        <p name="gender">{{ user.gender }}</p>
+
+    {% endif %}
+    {% if user.nationality %}
+        <label for="nationality">nationality:</label>
+        <p name="nationality">{{ user.nationality.name }}</p>
+
+    {% endif %}
+    {% if user.location %}
+        <label for="location">current location:</label>
+        <p name="location">{{ user.location.name }}</p>
+
+    {% endif %}
+    {% if user.hobbies %}
+        <label for="hobbies">hobbies:</label>
+        <p name="hobbies">
+          {% for hobby in user.hobbies.all %}
+              {{ hobby }}
+          {% endfor %}
+        </p>
+
+    {% endif %}
+    {% if user.education %}
+        <label for="education">education:</label>
+        <p name="education">{{ user.education }}</p>
+
+    {% endif %}
+
+  </div>
+  <div class="col-lg-3 col-sm-12">
+  </div>
+</div>
+<div class="row" name="sharedfriends">
+  <div class="col-lg-12 col-sm-12">
+    {% if sharedfriends %}
+        <p style="margin-left:100px;">You have these common friends:</p>
+        <p style="margin-left:100px;">
+          {% for friend in sharedfriends %}
+            {{ friend }}
+          {% endfor %}
+        </p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="row" name="friendrequest_bar">
+  <div class="col-lg-3 col-sm-12">
+
+  </div>
+  <div class="col-lg-6 col-sm-12">
+    <form name="friendrequest_form" id="id11" action="{% url 'friend_request' %}" method="post">
+    {% csrf_token %}
+      <input type="hidden" name="user_id" value="{{ user.id }}"/>
+      <label for="message">message:</label>
+      <input type="text" name="message" placeholder="introduce yourself"/>
+      <input type="submit" name="action_friendrequest" value="send friend request"/>
+    </form>
+  </div>
+  <div class="col-lg-3 col-sm-12">
+
+  </div>
+</div>
+
+</div>
+
+{% endblock %}

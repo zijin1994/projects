@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    BookMaster
+{% endblock %}
+
+{% block body %}
+    <h1>Results</h1>
+
+    <ul>
+        {% for result in results %}
+            <li>
+                <a href="{{ url_for('book_page', book_id=result.isbn) }}">
+                    {{ result.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ url_for('logout') }}">
+      <div class="form-group">
+          <button class="btn btn-primary">logout</button>
+      </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "matches/base.html" %}
+
+{% block title %}
+    Complete info
+{% endblock %}
+{% block body %}
+<div class="container" name="complete_info" id="id07">
+  <h1 style="text-align:center; font-family: Sans-serif;">Hello, {{ user.first_name }}</h1>
+  <form name="complete_info_form" id="id08" action="{% url 'complete_info' %}" method="post">
+    {% csrf_token %}
+    <div class = "row">
+      <div class = "col-lg-3 col-sm-12">
+      </div>
+      <div class = "col-lg-3 col-sm-12">
+        <label for="age">Age:</label>
+        <br>
+        <input id="age" name="age" type="number" min="0"/>
+      </div>
+      <div class = "col-lg-3 col-sm-12">
+        <label for="gender">Gender:</label>
+        <br>
+        <select id="gender" name="gender">
+          <option selected disabled hidden style="display: none" value=""></option>
+          <option value="male">male</option>
+          <option value="female">female</option>
+          <option value="unknown">unknown</option>
+        </select>
+      </div>
+      <div class = "col-lg-3 col-sm-12">
+      </div>
+    </div>
+
+    <div class = "row">
+      <div class = "col-lg-3 col-sm-12">
+      </div>
+      <div class = "col-lg-3 col-sm-12">
+        <label for="nationality">nationality:</label>
+        <input id="nationality" name="nationality" type="text" list="countries"/>
+          <datalist id="countries">
+          {% for country in countries %}
+            <option value="{{ country.alpha_2 }}">{{ country.name }}</option>
+          {% endfor %}
+          </datalist>
+      </div>
+      <div class = "col-lg-3 col-sm-12">
+        <label for="location">location:</label>
+        <br>
+        <input id="location" name="location" type="text" list="countries"/>
+      </div>
+      <div class = "col-lg-3 col-sm-12">
+      </div>
+    </div>
+
+    <div class = "row">
+      <div class = "col-lg-3 col-sm-12">
+      </div>
+      <div class = "col-lg-3 col-sm-12">
+        <label for="education">Education level:</label>
+        <select id="education" name="education">
+          <option selected disabled hidden style="display: none" value=""></option>
+          {% for education in educations %}
+          <option value="{{ education.name }}">{{ education.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class = "col-lg-3 col-sm-12">
+        {% for hobby in hobbies %}
+            <label for="{{ hobby.name }}">{{ hobby }}</label>
+            <input type="checkbox" name="{{ hobby.name }}" value="{{ hobby.name }}" class="check" />
+        {% endfor %}
+      </div>
+      <div class = "col-lg-3 col-sm-12">
+      </div>
+    </div>
+    <br>
+    <div class = "row">
+    <div class = "col-lg-3 col-sm-12">
+    </div>
+    <div class = "col-lg-6 col-sm-12" style="text-align:center;">
+    <input type="submit" name="action_submit_info" value="submit"/>
+    </div>
+    <div class = "col-lg-3 col-sm-12">
+    </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

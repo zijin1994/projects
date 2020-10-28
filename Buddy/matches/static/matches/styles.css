@@ -1,0 +1,73 @@
+#id01, #id03, #id05, #id07, #id09, #id10, #id11, #id12, #id15{
+  background: rgba(211,211,211,0.5);
+  margin-top: 20px;
+  padding: 20px;
+}
+
+/**all the submit buttons**/
+input[type=submit], button {
+  background-color: #555;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+input[type=submit]:hover, button:hover {
+  background: #eee;
+  color: black;
+}
+
+/**friend list checkbox style as buttons**/
+input.chk-btn {
+  display: none;
+}
+input.chk-btn + label {
+  border: 1px solid grey;
+  background: ghoswhite;
+  padding: 5px 8px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+input.chk-btn:not(:checked) + label:hover {
+  box-shadow: 0px 1px 3px;
+}
+input.chk-btn + label:active,
+input.chk-btn:checked + label {
+  box-shadow: 0px 0px 3px inset;
+  background: #eee;
+}
+
+/**friendlist form buttons**/
+#friendlist_popup_buttons {
+  display: none;
+  text-align: center;
+}
+
+/**chat box popup**/
+.chat-popup {
+  display: none;
+  position: relative;
+  bottom: 0;
+  border: 3px solid #grey;
+  z-index: 9;
+  max-width: 100%;
+  padding: 10px;
+}
+
+.chat-popup textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #ddd;
+  resize: none;
+  min-height: 50px;
+}
+
+.chat-popup textarea:focus {
+  background-color: #f1f1f1;
+  outline: none;
+}

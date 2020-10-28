@@ -1,0 +1,72 @@
+{% extends "matches/base.html" %}
+
+{% block title %}
+    Friendslist
+{% endblock %}
+{% block body %}
+<div class="container" name="friends_page" id="id09">
+  <h1 style="text-align:center; font-family: Sans-serif;">Hello, {{ user.first_name }}</h1>
+  <div class="row">
+    <div class="col-lg-9 col-sm-12" style="background-color:lightgrey;">
+    <div class="chat-popup" id="chatpop">
+    <h1>Chat</h1>
+    <div class="container">
+    <div class="row">
+    <div class="col-lg-4 col-sm-6">
+    {% if received_message %}
+    <div id="received_message">
+        {% for message in received_message %}
+        <div name="{{ message.from_user.username }}" class="received_messages" style="display:none;">{{ message.from_user }}: {{ message.text }}</div>
+        {% endfor %}
+    </div>
+    {% else %}
+    {% endif %}
+    </div>
+    <div class="col-lg-4 col-sm-6">
+    {% if sent_message %}
+    <br>
+    <div id="sent_message">
+        {% for message in sent_message %}
+        <div name="{{ message.to_user.username }}" class="sent_messages" style="display:none;">You: {{ message.text }}</div>
+        {% endfor %}
+    </div>
+    {% else %}
+    {% endif %}
+    </div>
+    </div>
+    </div>
+
+    <label for="msg"><b>Message</b></label>
+    <form name="message_form" id="id14" action="{% url 'message' %}" method="post">
+    {% csrf_token %}
+    <textarea placeholder="Type message.." name="msg" required></textarea>
+
+    <button type="submit" id="message_send" class="btn">Send</button>
+    <button type="button" class="btn cancel" onclick="close_chatbox()">Close</button>
+    </form>
+    </div>
+    </div>
+    <div class="col-lg-3 col-sm-12">
+      {% if friends %}
+      <form name="friend_list_button_form" id="id13" action="{% url 'delete_friend' %}" method="post">
+        {% csrf_token %}
+        <p name="friendslist_title" style="font-family: Sans-serif;">Your friendslist:</p>
+        <ul id="friendslist" style="list-style-type:none;">
+          {% for friend in friends %}
+          <li>
+              <input type="radio" onclick="display_form_buttons(this.value, this.name)" class="chk-btn" id="{{ friend.username }}" name="{{ friend.username }}" value="{{ friend.first_name }}"/>
+              <label for="{{ friend.username }}">{{ friend }}</label>
+          </li>
+          {% endfor %}
+        </ul>
+          <div id="friendlist_popup_buttons">
+            <input type="submit" name="action_delete_friend" value="Delete"/>
+          </div>
+      </form>
+      {% else %}
+        <p style="text-align:center; font-family:courier;">Your friendslist is empty, try find some firends first!</p>
+      {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}

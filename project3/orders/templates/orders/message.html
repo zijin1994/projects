@@ -1,0 +1,10 @@
+{% extends "orders/base.html" %}
+
+{% block body %}
+{% if message %}
+    <div>
+        {{ message }}
+    </div>
+{% endif %}
+<a href="{% url 'shoppingcart' %}">Shopping cart</a>
+{% endblock %}

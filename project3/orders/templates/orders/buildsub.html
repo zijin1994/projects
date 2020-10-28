@@ -1,0 +1,16 @@
+{% extends "orders/base.html" %}
+
+{% block body %}
+<h1>{{ title }}</h1>
+<h2>Please select  topping(s) to add to your sub, they are 0.50 dollar each</h2>
+<form action="{% url 'sub_toppings' sub_name=name sub_size=size %}" method="post">
+    {% csrf_token %}
+        {% for topping in toppings %}
+            <label><input type="checkbox" name="{{ topping.name }}" value="{{ topping.name }}" class="check" />{{ topping }}</label>
+
+        {% endfor %}
+        <label><input type="checkbox" name="cheese" value="cheese" class="check" />Extra cheese on any sub</label>
+
+    <input type="submit" value="Add Sub Toppings"/>
+</form>
+{% endblock %}

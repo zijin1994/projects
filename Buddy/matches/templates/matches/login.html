@@ -1,0 +1,47 @@
+{% extends "matches/base.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+{% block body %}
+<div class="container" name="login" id="id01">
+  <h1 style="text-align:center; font-family:verdana;">Buddy</h1>
+  <br>
+  <h2 style="text-align:center; font-family:verdana;">The Best Place To Find Your Buddy</h2>
+  <br>
+  <br>
+  <form name="login_form" id="id02" action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-lg-3 col-sm-12">
+      </div>
+      <div class="col-lg-6 col-sm-12" style="text-align:center;" >
+        <br>
+        <label for="username">username:</label>
+        <input name="username" placeholder="type in username" type="text"/>
+        <br>
+        <label for="password">password:</label>
+        <input name="password" placeholder="type in password" type="password"/>
+        <br>
+        <input type="submit" name="action_login" value="Login"/>
+        <br>
+        <p><i>Do not have an account?</i></p>
+        <input type="submit" name="action_register" value="Register"/>
+      </div>
+      <div class="col-lg-3 col-sm-12">
+      </div>
+    </div>
+  {% if message %}
+    <div class="row">
+      <div class="col-lg-3 col-sm-12">
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <p class="message" style="text-align:center; font-family:courier;">{{ message }}</p>
+      </div>
+      <div class="col-lg-3 col-sm-12">
+      </div>
+    </div>
+  {% endif %}
+  </form>
+</div>
+{% endblock %}

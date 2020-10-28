@@ -1,0 +1,53 @@
+{% extends "matches/base.html" %}
+
+{% block title %}
+    {{ user.first_name }}
+{% endblock %}
+
+{% block body %}
+
+<div class="container" name="userpage" id="id05">
+  <div class="container">
+    {% if user.photo %}
+    <img id="head_photo_user" name="head_photo_user" src="{{ user.photo.url }}" alt="Profile Picture" style="width:100px;height:100px;margin-left:auto;margin-right:auto;display:block;">
+    {% else %}
+    {% endif %}
+    <input type="submit" name="action_logout" form="id06" value="Logout" style="position:absolute;top:0px;right:0px;"/>
+  </div>
+
+  <h1 style="font-family: Sans-serif;text-align:center;">Welcome back, {{ user.first_name }}</h1>
+  <br>
+  <form name="task_bar" id="id06" action="{% url 'task_bar' %}" method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-lg-3 col-sm-12" style="text-align:right;">
+          <input type="submit" name="action_complete_info" value="Complete Info" />
+      </div>
+      <div class="col-lg-2 col-sm-12" style="text-align:right;">
+          <input type="submit" name="action_find_friends" value="Find friends" />
+      </div>
+      <div class="col-lg-2 col-sm-12" style="text-align:center;">
+          <input type="submit" name="action_friendslist" value="Friendslist" />
+      </div>
+      <div class="col-lg-2 col-sm-12" style="text-align:left;">
+          <input type="submit" name="action_friendrequests" value="Friend requests" />
+      </div>
+      <div class="col-lg-3 col-sm-12" style="text-align:left;">
+          <input type="submit" name="action_upload_profile_pic" value="Profile Pic" />
+      </div>
+    </div>
+    {% if message %}
+    <div class="row">
+      <p class="message" style="text-align:center; font-family:courier;">{{ message }}</p>
+    </div>
+    {% endif %}
+  </form>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

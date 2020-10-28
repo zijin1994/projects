@@ -1,0 +1,12 @@
+{% extends "orders/base.html" %}
+
+{% block body %}
+<h1>Subs</h1>
+    <ul>
+        {% for sub in subs %}
+            <li>
+                <a href = "{% url 'add_sub' name=sub.name size=sub.size %}">{{ sub }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

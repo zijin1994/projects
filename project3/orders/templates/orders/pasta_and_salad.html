@@ -1,0 +1,12 @@
+{% extends "orders/base.html" %}
+
+{% block body %}
+<h1>Pasta and Salad</h1>
+    <ul>
+        {% for item in pasta_and_salad %}
+            <li>
+                <a href = "{% url 'add_pasta_and_salad' id=item.id %}">{{ item }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

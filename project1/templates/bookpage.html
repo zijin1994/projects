@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Book
+{% endblock %}
+
+{% block body %}
+    <h1>Book Info</h1>
+
+    <ul>
+        <li>title: {{book.title}}</li>
+        <li>isbn: {{ book.isbn }}</li>
+        <li>author: {{ book.author }}</li>
+        <li>publish year: {{ book.year}} </li>
+    </ul>
+
+    <h1>Bookheads data</h1>
+
+    <ul>
+        <li>average rating: {{average}}</li>
+        <li>total number of ratings: {{rating_count}}</li>
+    </ul>
+
+    <h2>Reviews</h2>
+
+    <ul>
+        {% for r in book_reviews %}
+            <li>Score:{{ r.score }} {{ r.context }}</li>
+        {% else %}
+            <li>No reviews posted yet!</li>
+        {% endfor %}
+    </ul>
+
+    <form action = "{{url_for('review_submit',  book_id=book.isbn) }}" method="post">
+
+      <div class="form-group">
+          <input class="form-control" name="context" placeholder="enter your review">
+      </div>
+
+      <div class="form-group">
+          <input class="form-control" name="score" placeholder="enter rating">
+      </div>
+
+      <div class="form-group">
+          <button class="btn btn_primary">submit</button>
+      </div>
+
+  </form>
+
+  <form action="{{ url_for('logout') }}">
+    <div class="form-group">
+        <button class="btn btn-primary">logout</button>
+    </div>
+  </form>
+
+{% endblock %}
